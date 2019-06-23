@@ -1,5 +1,5 @@
 # Express REST API
-
+- Make a `.env` file in `environments` directory. Edit the secrets accordingly.
 - Install `docker` and `docker-compose`
 - Run `docker-compose up`
 
