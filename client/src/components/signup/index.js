@@ -53,16 +53,6 @@ class Signup extends React.Component {
                       value={password}/>
                   </fieldset>
 
-                  <span className="col-md-6 pull-xs-left">
-                  <Link to="/">
-                    <button
-                      className="btn btn-lg btn-primary"
-                      type="submit">
-                      Home
-                    </button>
-                  </Link>
-                  </span>
-
                   <button
                     className="btn btn-lg btn-primary pull-xs-right"
                     type="submit">
