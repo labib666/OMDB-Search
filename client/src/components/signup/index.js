@@ -32,7 +32,7 @@ class Signup extends React.Component {
                   <fieldset className="form-group">
                     <input
                       className="form-control form-control-lg"
-                      type="username"
+                      type="text"
                       placeholder="Username"
                       value={username}/>
                   </fieldset>

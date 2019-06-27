@@ -1,17 +1,91 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { request } from '../../reducers/common';
+
+import {
+  LOGIN,
+  ERROR,
+} from '../../constants';
+
+function mapStateToProps(state) {
+  return {
+    token: state.token,
+  }
+}
+
+function onSubmit(username, password) {
+  return (dispatch, getState) => {
+    request.post('/public/login', {
+      username,
+      password,
+    }).then(data => {
+      console.log('data:', data);
+      // dispatch({
+      //   data,
+      //   type: LOGIN,
+      // });
+    }).catch(error => {
+      console.error('error: ', error);
+      dispatch ({
+        error,
+        type: ERROR,
+      });
+    });
+  }
+};
+
+const mapDispatchToProps = dispatch => ({
+  onSubmit: (username, password) => dispatch(onSubmit(username, password)),
+});
 
 class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: 'abcd@gmail.com',
-      password: 'abcd',
+      username: '',
+      password: '',
     };
   }
 
+  onPropChange(propName, value) {
+    this.setState({
+      ...this.state,
+      [propName]: value,
+    });
+  }
+
+  // componentDidMount() {
+  //   console.log('did-mount', this.props, this.state);
+  // }
+
+  // shouldComponentUpdate() {
+  //   console.log('did-mount', this.props, this.state);
+  //   return true;
+  // }
+
+  // getSnapshotBeforeUpdate() {
+  //   console.log('snap-before', this.props, this.state);
+  //   return null;
+  // }
+
+  // componentDidUpdate() {
+  //   console.log('did-update', this.props, this.state);
+  // }
+
+  // componentDidCatch() {
+  //   console.log('did-catch', this.props, this.state);
+  // }
+
+  // componentWillUnmount() {
+  //   console.log('will-unmount', this.props, this.state);
+  // }
+
+
   render() {
-    const { email, password } = this.state;
+    const { onSubmit } = this.props;
+    const { username, password } = this.state;
     return (
       <div className="auth-page">
         <div className="container page">
@@ -25,15 +99,24 @@ class Login extends React.Component {
                 </Link>
               </p>
 
-              <form>
+              <form onSubmit={
+                (ev) => {
+                  console.log(
+                    '[state]:', JSON.stringify(this.state, null, 2),
+                  );
+                  onSubmit(username, password);
+                }
+              }>
                 <fieldset>
-
                   <fieldset className="form-group">
                     <input
                       className="form-control form-control-lg"
-                      type="email"
-                      placeholder="Email"
-                      value={email}/>
+                      type="text"
+                      placeholder="Username"
+                      value={username}
+                      onChange={
+                        ev => this.onPropChange('username', ev.target.value)
+                      }/>
                   </fieldset>
 
                   <fieldset className="form-group">
@@ -41,7 +124,10 @@ class Login extends React.Component {
                       className="form-control form-control-lg"
                       type="password"
                       placeholder="Password"
-                      value={password}/>
+                      value={password}
+                      onChange={
+                        ev => this.onPropChange('password', ev.target.value)
+                      }/>
                   </fieldset>
 
                   <button
@@ -61,4 +147,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
