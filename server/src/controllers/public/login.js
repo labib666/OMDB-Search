@@ -24,13 +24,16 @@ export default async (req, res, next) => {
 
     const token = sign({
       id: user._id,
+      date: new Date().toISOString(),
     }, process.env.JWT_SECRET);
 
     return res.status(200).json({
       message: 'login successful',
       token,
-      id: user._id,
-      username: user.username,
+      user: {
+        id: user._id,
+        username: user.username,
+      },
     });
   } catch (err) {
     return next(err);

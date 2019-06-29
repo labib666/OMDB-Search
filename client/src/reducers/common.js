@@ -16,9 +16,9 @@ export default (state = {}, action) => {
 export const request = {
   get: (path, query = {}) => axios.get(
     `${apiUrl}${path}`,
-  ),
+  ).then(res => res.data),
   post: (path, body = {}) => axios.post(
     `${apiUrl}${path}`,
     body,
-  ),
+  ).then(res => res.data),
 };

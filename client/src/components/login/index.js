@@ -1,43 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 
-import { request } from '../../reducers/common';
-
-import {
-  LOGIN,
-  ERROR,
-} from '../../constants';
+import actions from '../../actions'
 
 function mapStateToProps(state) {
   return {
-    token: state.token,
+    token: state.auth.token,
   }
 }
 
-function onSubmit(username, password) {
-  return (dispatch, getState) => {
-    request.post('/public/login', {
-      username,
-      password,
-    }).then(data => {
-      console.log('data:', data);
-      // dispatch({
-      //   data,
-      //   type: LOGIN,
-      // });
-    }).catch(error => {
-      console.error('error: ', error);
-      dispatch ({
-        error,
-        type: ERROR,
-      });
-    });
-  }
-};
-
 const mapDispatchToProps = dispatch => ({
-  onSubmit: (username, password) => dispatch(onSubmit(username, password)),
+  onSubmit: (username, password) => dispatch(actions.auth.login(username, password)),
 });
 
 class Login extends React.Component {
@@ -49,7 +23,7 @@ class Login extends React.Component {
     };
   }
 
-  onPropChange(propName, value) {
+  onStateChange(propName, value) {
     this.setState({
       ...this.state,
       [propName]: value,
@@ -84,8 +58,13 @@ class Login extends React.Component {
 
 
   render() {
-    const { onSubmit } = this.props;
+    const { onSubmit, token } = this.props;
     const { username, password } = this.state;
+
+    if (token && token.length > 0) {
+      this.props.history.push('/');
+    }
+
     return (
       <div className="auth-page">
         <div className="container page">
@@ -101,9 +80,7 @@ class Login extends React.Component {
 
               <form onSubmit={
                 (ev) => {
-                  console.log(
-                    '[state]:', JSON.stringify(this.state, null, 2),
-                  );
+                  ev.preventDefault();
                   onSubmit(username, password);
                 }
               }>
@@ -114,9 +91,7 @@ class Login extends React.Component {
                       type="text"
                       placeholder="Username"
                       value={username}
-                      onChange={
-                        ev => this.onPropChange('username', ev.target.value)
-                      }/>
+                      onChange={ev => this.onStateChange('username', ev.target.value)}/>
                   </fieldset>
 
                   <fieldset className="form-group">
@@ -125,9 +100,7 @@ class Login extends React.Component {
                       type="password"
                       placeholder="Password"
                       value={password}
-                      onChange={
-                        ev => this.onPropChange('password', ev.target.value)
-                      }/>
+                      onChange={ev => this.onStateChange('password', ev.target.value)}/>
                   </fieldset>
 
                   <button
@@ -147,4 +120,4 @@ class Login extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

@@ -1,25 +1,25 @@
-import { SIGNUP, LOGIN, LOGOUT } from '../constants';
+import { LOGIN, LOGOUT } from '../constants';
 
 const initialState = {
   token: '',
   user: {
     id: '',
-    email: '',
     username: '',
   },
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SIGNUP:
-      return { ...initialState };
     case LOGIN:
+      const { user, token } = action.data;
       return {
         ...state,
-        user: action.data,
+        token,
+        user,
       };
     case LOGOUT:
+      return initialState;
     default:
-      return { ...initialState };
+      return state;
   }
 };
