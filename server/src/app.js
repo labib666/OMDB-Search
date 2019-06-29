@@ -2,12 +2,15 @@ import express, { json, urlencoded } from 'express';
 import cookieParser from 'cookie-parser';
 import createError from 'http-errors';
 import logger from 'morgan';
+import cors from 'cors';
 
 import { initialize as passportInit } from './utils/passport';
 
 import indexRouter from './routes/index';
 
 const app = express();
+app.use(cors());
+
 passportInit();
 
 app.use(logger('dev'));
