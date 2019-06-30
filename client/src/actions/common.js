@@ -4,7 +4,8 @@ const apiUrl = 'http://localhost:8000/api';
 
 export const request = {
   get: (path, query = undefined, token = undefined) => {
-    const url = `${apiUrl}${path}${query}`;
+    const q = query ? query : '';
+    const url = `${apiUrl}${path}${q}`;
     const config = {
       ...(
         !!token 
