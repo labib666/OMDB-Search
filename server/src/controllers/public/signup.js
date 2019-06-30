@@ -10,9 +10,8 @@ export default async (req, res, next) => {
   try {
     const user = await User.findOne({ $or: [{ username }, { email }] }).exec();
     if (user) {
-      console.log(user);
       return res.status(400).json({
-        response: 'user or email already exists',
+        message: 'user or email already exists',
       });
     }
 
@@ -23,7 +22,7 @@ export default async (req, res, next) => {
     });
 
     return res.status(200).json({
-      message: 'signup successfully',
+      message: 'signup successful',
       id: newUser._id,
       username: newUser.username,
     });

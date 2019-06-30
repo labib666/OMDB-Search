@@ -1,4 +1,5 @@
 import { request } from '../reducers/common';
+import { push } from 'connected-react-router';
 
 import {
     ERROR,
@@ -12,6 +13,8 @@ function signup(username, email, password) {
       username,
       email,
       password,
+    }).then(data => {
+      dispatch(push('/login'));
     }).catch(error => {
       dispatch ({
         error,
