@@ -25,18 +25,18 @@ app.use('/', (req, res, next) => next(createError(404)));
 
 // error handler
 app.use((err, req, res, next) => {
-  res.error = req.app.get('env') === 'development' ? err : {};
+  console.log(err);
 
-  // render the error
+  res.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
 
   if (err.status !== 404) {
-    return res.json({
+    return res.status(err.status).json({
       message: err.message,
     });
   }
 
-  return res.json({
+  return res.status(404).json({
     message: 'resourse not found',
   });
 });

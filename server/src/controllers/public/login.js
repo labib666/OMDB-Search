@@ -12,13 +12,13 @@ export default async (req, res, next) => {
 
     if (!user) {
       return res.status(404).json({
-        response: 'user does not exist',
+        message: 'user does not exist',
       });
     }
 
     if (!compareSync(password, user.password)) {
       return res.status(401).json({
-        response: 'password does not match',
+        message: 'password does not match',
       });
     }
 

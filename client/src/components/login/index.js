@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import actions from '../../actions'
+import actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
@@ -58,12 +58,8 @@ class Login extends React.Component {
 
 
   render() {
-    const { onSubmit, token } = this.props;
+    const { onSubmit } = this.props;
     const { username, password } = this.state;
-
-    if (token && token.length > 0) {
-      this.props.history.push('/');
-    }
 
     return (
       <div className="auth-page">
@@ -106,7 +102,7 @@ class Login extends React.Component {
                   <button
                     className="btn btn-lg btn-primary pull-xs-right"
                     type="submit">
-                    Sign in
+                    Login
                   </button>
 
                 </fieldset>
@@ -120,4 +116,4 @@ class Login extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

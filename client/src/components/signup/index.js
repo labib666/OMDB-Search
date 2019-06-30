@@ -1,18 +1,40 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+
+import actions from '../../actions';
+
+function mapStateToProps(state) {
+  return {
+    token: state.auth.token,
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  onSubmit: (username, email, password) => dispatch(actions.auth.signup(username, email, password)),
+});
 
 class Signup extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: 'abcd',
-      email: 'abcd@gmail.com',
-      password: 'abcd',
+      username: '',
+      email: '',
+      password: '',
     };
   }
 
+  onStateChange(propName, value) {
+    this.setState({
+      ...this.state,
+      [propName]: value,
+    });
+  }
+
   render() {
+    const { onSubmit } = this.props;
     const { username, email, password } = this.state;
+
     return (
       <div className="auth-page">
         <div className="container page">
@@ -26,7 +48,12 @@ class Signup extends React.Component {
                 </Link>
               </p>
 
-              <form>
+              <form onSubmit={
+                (ev) => {
+                  ev.preventDefault();
+                  onSubmit(username, email, password);
+                }
+              }>
                 <fieldset>
 
                   <fieldset className="form-group">
@@ -34,7 +61,8 @@ class Signup extends React.Component {
                       className="form-control form-control-lg"
                       type="text"
                       placeholder="Username"
-                      value={username}/>
+                      value={username}
+                      onChange={ev => this.onStateChange('username', ev.target.value)}/>
                   </fieldset>
 
                   <fieldset className="form-group">
@@ -42,7 +70,8 @@ class Signup extends React.Component {
                       className="form-control form-control-lg"
                       type="email"
                       placeholder="Email"
-                      value={email}/>
+                      value={email}
+                      onChange={ev => this.onStateChange('email', ev.target.value)}/>
                   </fieldset>
 
                   <fieldset className="form-group">
@@ -50,13 +79,14 @@ class Signup extends React.Component {
                       className="form-control form-control-lg"
                       type="password"
                       placeholder="Password"
-                      value={password}/>
+                      value={password}
+                      onChange={ev => this.onStateChange('password', ev.target.value)}/>
                   </fieldset>
 
                   <button
                     className="btn btn-lg btn-primary pull-xs-right"
                     type="submit">
-                    Sign in
+                    Signup
                   </button>
 
                 </fieldset>
@@ -70,4 +100,5 @@ class Signup extends React.Component {
   }
 }
 
-export default Signup;
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+

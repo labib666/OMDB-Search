@@ -13,7 +13,10 @@ export const getMovies = async (req, res, next) => {
 
   try {
     const search = await axios.get(`${process.env.OMDB_URI}&s=${s}`);
-    return res.status(200).json(search.data);
+    return res.status(200).json({
+      message: 'Serched for movie',
+      movies: search.data,
+    });
   } catch (err) {
     return next(err);
   }
@@ -45,7 +48,7 @@ export const saveMovie = async (req, res, next) => {
     }
     await dbuser.save();
     return res.status(200).json({
-      message: `Movie ${id} saved`,
+      message: 'Movie saved',
     });
   } catch (err) {
     return next(err);
@@ -67,7 +70,7 @@ export const removeMovie = async (req, res, next) => {
     }
     await dbuser.save();
     return res.status(200).json({
-      message: `Movie ${id} removed`,
+      message: 'Movie removed',
     });
   } catch (err) {
     return next(err);
