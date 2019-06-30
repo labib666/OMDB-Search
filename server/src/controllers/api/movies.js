@@ -4,6 +4,7 @@ import User from '@/models/User';
 
 export const getMovies = async (req, res, next) => {
   const { s } = req.query;
+  console.log(s);
   if (!s) {
     return res.status(200).json({
       message: 'Serched for movie',
@@ -15,7 +16,11 @@ export const getMovies = async (req, res, next) => {
     const search = await axios.get(`${process.env.OMDB_URI}&s=${s}`);
     return res.status(200).json({
       message: 'Serched for movie',
-      movies: search.data,
+      movies: search.data.Search.map(e => ({
+        id: e.imdbID,
+        name: e.Title,
+        image: e.Poster,
+      })),
     });
   } catch (err) {
     return next(err);
@@ -27,7 +32,14 @@ export const getMovie = async (req, res, next) => {
 
   try {
     const search = await axios.get(`${process.env.OMDB_URI}&i=${id}`);
-    return res.status(200).json(search.data);
+    return res.status(200).json({
+      message: 'Serched for movie',
+      movies: [search.data].map(e => ({
+        id: e.imdbID,
+        name: e.Title,
+        image: e.Poster,
+      })),
+    });
   } catch (err) {
     return next(err);
   }
@@ -36,6 +48,7 @@ export const getMovie = async (req, res, next) => {
 export const saveMovie = async (req, res, next) => {
   const { id } = req.params;
   const { user } = req;
+  const { name, image } = req.body;
 
   try {
     const dbuser = await User.findById(user.id, { password: false }).exec();
@@ -43,8 +56,8 @@ export const saveMovie = async (req, res, next) => {
       return next(createError(404, 'missing user'));
     }
     if (!dbuser.savedMovies) dbuser.savedMovies = [];
-    if (!dbuser.savedMovies.includes(id)) {
-      dbuser.savedMovies.push(id);
+    if (!dbuser.savedMovies.find(e => e.id === id)) {
+      dbuser.savedMovies.push({ id, name, image });
     }
     await dbuser.save();
     return res.status(200).json({
@@ -65,8 +78,9 @@ export const removeMovie = async (req, res, next) => {
       return next(createError(404, 'missing user'));
     }
     if (!dbuser.savedMovies) dbuser.savedMovies = [];
-    if (dbuser.savedMovies.includes(id)) {
-      dbuser.savedMovies.splice(dbuser.savedMovies.indexOf(id), 1);
+    if (dbuser.savedMovies.find(e => e.id === id)) {
+      const item = dbuser.savedMovies.find(e => e.id === id);
+      dbuser.savedMovies.splice(dbuser.savedMovies.indexOf(item), 1);
     }
     await dbuser.save();
     return res.status(200).json({

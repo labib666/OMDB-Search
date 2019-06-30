@@ -46,11 +46,13 @@ function login(username, password) {
   }
 };
 
-function logout(token) {
+function logout() {
   return (dispatch, getState) => {
     dispatch({
       type: LOGOUT,
     });
+    let { token } = getState().auth;
+    if (!token) token = localStorage.getItem('token');
     request.post('/v1/user/logout', null, token).then(data => {
       console.log('logout complete')
     })

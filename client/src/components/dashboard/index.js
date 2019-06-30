@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 import Landing from './landing';
 import Profile from '../profile';
+import Movies from '../movies';
 
 class Dashboard extends React.Component {
   render() {
@@ -11,16 +12,12 @@ class Dashboard extends React.Component {
         <Switch>
           <Route exact path="/" component={Landing}></Route>
           <Route path="/profile" component={Profile}></Route>
-          <Route path="/movies" component={movies}></Route>
+          <Route path="/movies" component={Movies}></Route>
           <Redirect to="/"/>
         </Switch>
       </div>
     );
   }
-}
-
-function movies () {
-  return (<h1>Hello Movies</h1>);
 }
 
 export default Dashboard;

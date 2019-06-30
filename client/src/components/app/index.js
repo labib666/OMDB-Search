@@ -1,12 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import { Route, Switch } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Header from './header';
 import Home from '../home';
 import Dashboard from '../dashboard';
 
 import actions from '../../actions';
+
+toast.configure();
 
 function mapStateToProps(state) {
   return {

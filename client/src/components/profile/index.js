@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Details from './details';
+import Movies from '../movies';
 
 const mapStateToProps = state => ({
   user: state.auth.user,
@@ -52,7 +53,7 @@ class Profile extends React.Component {
     const { tab } = this.state;
     const image = `https://api.adorable.io/avatars/200/${user.id}`;
 
-    const tabToDisplay = (tab === 'profile') ? <Details/> : <Details/>;
+    const tabToDisplay = (tab === 'profile') ? <Details/> : <Movies useUserMovies={true}/>;
     
 
     return (
