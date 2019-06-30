@@ -2,10 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Details from './details';
+import Movies from '../movies';
+
+import actions from '../../actions';
 
 const mapStateToProps = state => ({
   user: state.auth.user,
 });
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getUserMovies: () => dispatch(actions.movies.getUserMovies()),
+  }
+}
 
 class Profile extends React.Component {
   constructor() {
@@ -13,6 +22,10 @@ class Profile extends React.Component {
     this.state = {
       tab: 'profile',
     };
+  }
+
+  componentDidMount() {
+    this.props.getUserMovies();
   }
 
   onTabChange(newTab) {
@@ -52,7 +65,7 @@ class Profile extends React.Component {
     const { tab } = this.state;
     const image = `https://api.adorable.io/avatars/200/${user.id}`;
 
-    const tabToDisplay = (tab === 'profile') ? <Details/> : <Details/>;
+    const tabToDisplay = (tab === 'profile') ? <Details/> : <Movies/>;
     
 
     return (
@@ -92,4 +105,4 @@ class Profile extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

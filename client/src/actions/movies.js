@@ -6,9 +6,11 @@ import {
   MOVIES,
 } from '../constants';
 
-function getUserMovies(token) {
+function getUserMovies() {
   return (dispatch, getState) => {
-    request.get('/v1/user/movies', token).then(data => {
+    let { token } = getState().auth;
+    if (!token) token = localStorage.getItem('token');
+    request.get('/v1/user/movies', null, token).then(data => {
       dispatch({
         movies: data.movies,
         type: MOVIES,

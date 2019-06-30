@@ -14,13 +14,13 @@ export const getUser = (req, res) => {
 export const getUserMovies = async (req, res, next) => {
   const { user } = req;
   try {
-    const userDetail = await User.findById(user.id, { moviesSaved: true }).exec();
+    const userDetail = await User.findById(user.id, { savedMovies: true }).exec();
     if (!userDetail) {
       return next(Error('missing user'));
     }
     return res.status(200).json({
       message: 'retrieved user movies',
-      movies: userDetail.moviesSaved || [],
+      movies: userDetail.savedMovies || [],
     });
   } catch (err) {
     return next(err);

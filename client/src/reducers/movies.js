@@ -7,7 +7,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case MOVIES:
-      let { movies = [] } = action.movies;
+      let { movies = [] } = action;
       return {
         ...state,
         movies,

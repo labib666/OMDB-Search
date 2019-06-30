@@ -6,20 +6,19 @@ import actions from '../../../../actions';
 
 function mapStateToProps(state) {
   return {
-    token: state.auth.token,
     user: state.auth.user,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: (token) => dispatch(actions.auth.logout(token)),
+    logout: () => dispatch(actions.auth.logout()),
   };
 }
 
 class LoggedInView extends React.Component {
   render() {
-    const { token, user } = this.props;
+    const { user } = this.props;
     return (
       <ul className="nav navbar-nav pull-xs-right">
 
@@ -39,7 +38,7 @@ class LoggedInView extends React.Component {
 
         <li className="nav-item" id="logout">
           <a href="#logout"
-            onClick={ev => this.props.logout(token)}
+            onClick={ev => this.props.logout()}
             className="nav-link">
             Logout
           </a>
