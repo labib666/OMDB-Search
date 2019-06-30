@@ -24,7 +24,7 @@ class LoggedInView extends React.Component {
       <ul className="nav navbar-nav pull-xs-right">
 
         <li className="nav-item">
-          <Link to="/dashboard" className="nav-link">
+          <Link to="/" className="nav-link">
             Dashboard
           </Link>
         </li>
@@ -37,12 +37,12 @@ class LoggedInView extends React.Component {
           </Link>
         </li>
 
-        <li className="nav-item">
-          <Link
+        <li className="nav-item" id="logout">
+          <a href="#logout"
             onClick={ev => this.props.logout(token)}
             className="nav-link">
             Logout
-          </Link>
+          </a>
         </li>
 
       </ul>
