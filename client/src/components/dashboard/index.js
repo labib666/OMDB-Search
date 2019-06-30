@@ -1,35 +1,29 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
-import './Dashboard.css';
-import logo from '../../assets/images/logo.svg';
-
-
-function mapStateToProps(state) {
-  return {
-    user: state.auth.user,
-  }
-}
+import Landing from './landing';
 
 class Dashboard extends React.Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <div>
-            <p>
-              Welcome to OMDB Search!
-            </p>
-            <hr></hr>
-            <p>
-              Search away, {this.props.user.username}
-            </p>
-          </div>
-        </header>
+      <div>
+        <Switch>
+          <Route exact path="/" component={Landing}></Route>
+          <Route path="/profile" component={profile}></Route>
+          <Route path="/movies" component={movies}></Route>
+          <Redirect to="/"/>
+        </Switch>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(Dashboard);
+function profile () {
+  return (<h1>Hello Profile</h1>);
+}
+
+function movies () {
+  return (<h1>Hello Movies</h1>);
+}
+
+export default Dashboard;

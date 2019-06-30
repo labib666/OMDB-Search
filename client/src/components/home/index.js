@@ -1,43 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
-import './Home.css';
-import logo from '../../assets/images/logo.svg';
+import Landing from './landing';
+import Signup from '../signup';
+import Login from '../login';
 
-function Home() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <div>
-          <p>
-            Welcome to OMDB Search!
-          </p>
-          <hr></hr>
-          <fieldset>
-            <span className="col-md-6 pull-xs-left">
-            <Link to="/signup">
-              <button
-                className="btn btn-lg btn-primary"
-                type="submit">
-                Signup
-              </button>
-            </Link>
-            </span>
-            <span className="col-md-6 pull-xs-right">
-            <Link to="/login">
-              <button
-                className="btn btn-lg btn-primary"
-                type="submit">
-                Login
-              </button>
-            </Link>
-            </span>
-          </fieldset>
-        </div>
-      </header>
-    </div>
-  );
+class Home extends React.Component {
+  render() {
+    return (
+      <div>
+        <Switch>
+          <Route exact path="/" component={Landing}></Route>
+          <Route path="/login" component={Login}></Route>
+          <Route path="/signup" component={Signup}></Route>
+          <Redirect to="/"/>
+        </Switch>
+      </div>
+    );
+  }
 }
 
 export default Home;

@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Header from './header';
 import Home from '../home';
-import Login from '../login';
-import Signup from '../signup';
 import Dashboard from '../dashboard';
 
 import actions from '../../actions';
@@ -38,16 +36,13 @@ class App extends React.Component {
   }
 
   render() {
-    const token = this.props.token;
+    const token = this.props.token || localStorage.getItem('token');
     const HomeView = !!token ? Dashboard : Home;
     return (
       <div>
         <Header/>
         <Switch>
-          <Route exact path="/" component={HomeView}></Route>
-          <Route path="/login" component={Login}></Route>
-          <Route path="/signup" component={Signup}></Route>
-          <Redirect to="/"/>
+          <Route path="/" component={HomeView}></Route>
         </Switch>
       </div>
     );

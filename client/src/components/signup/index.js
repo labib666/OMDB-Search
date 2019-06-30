@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import actions from '../../actions';
 
@@ -32,12 +32,8 @@ class Signup extends React.Component {
   }
 
   render() {
-    const { onSubmit, token } = this.props;
+    const { onSubmit } = this.props;
     const { username, email, password } = this.state;
-
-    if (token && token.length > 0) {
-      return <Redirect to="/"/>
-    }
 
     return (
       <div className="auth-page">
@@ -104,5 +100,5 @@ class Signup extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Signup));
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
 
