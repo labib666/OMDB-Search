@@ -25,9 +25,9 @@ app.use('/', (req, res, next) => next(createError(404)));
 
 // error handler
 app.use((err, req, res, next) => {
-  res.error = req.app.get('env') === 'development' ? err : {};
+  console.log(err);
 
-  // render the error
+  res.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
 
   if (err.status !== 404) {

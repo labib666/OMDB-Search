@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-import actions from '../../actions'
+import actions from '../../actions';
 
 function mapStateToProps(state) {
   return {
@@ -106,7 +106,7 @@ class Login extends React.Component {
                   <button
                     className="btn btn-lg btn-primary pull-xs-right"
                     type="submit">
-                    Sign in
+                    Login
                   </button>
 
                 </fieldset>

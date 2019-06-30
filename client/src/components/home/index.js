@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import './Home.css';
 import logo from '../../assets/images/logo.svg';
 
-function App() {
+function Home() {
   return (
     <div className="App">
       <header className="App-header">
@@ -40,4 +40,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

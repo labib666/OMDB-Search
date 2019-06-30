@@ -6,7 +6,7 @@ const apiUrl = 'http://localhost:8000/api';
 export default (state = {}, action) => {
   switch (action.type) {
     case ERROR:
-      console.error('from store:', action.error);
+      console.error('error:', action.error);
       return state;
     default:
       return {};
@@ -14,11 +14,42 @@ export default (state = {}, action) => {
 };
 
 export const request = {
-  get: (path, query = {}) => axios.get(
-    `${apiUrl}${path}`,
-  ).then(res => res.data),
-  post: (path, body = {}) => axios.post(
-    `${apiUrl}${path}`,
-    body,
-  ).then(res => res.data),
+  get: (path, query = undefined, token = undefined) => {
+    const url = `${apiUrl}${path}`;
+    const config = {
+      ...(
+        !!query
+        && { query }
+      ),
+      ...(
+        !!token 
+        && {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+      ),
+    };
+    console.log('get', path, token, config);
+    return axios.get(
+      url, config,
+    ).then(res => res.data);
+  },
+  post: (path, body = {}, token = undefined) => {
+    const url = `${apiUrl}${path}`;
+    const config = {
+      ...(
+        !!token 
+        && {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+      ),
+    };
+    console.log('post', path, token, body, config);
+    return axios.post(
+      url, body, config,
+    ).then(res => res.data);
+  }
 };
