@@ -4,7 +4,11 @@ const UserSchema = new Schema({
   username: String,
   email: String,
   password: String,
-  savedMovies: [String],
+  savedMovies: [{
+    id: String,
+    name: String,
+    image: String,
+  }],
 });
 
 model('User', UserSchema, 'users');
