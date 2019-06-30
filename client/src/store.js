@@ -1,16 +1,38 @@
 import thunk from 'redux-thunk';
-import logger from 'redux-logger'
-import { createStore, applyMiddleware } from 'redux'
+import logger from 'redux-logger';
+import { createBrowserHistory } from 'history';
+import { routerMiddleware } from 'connected-react-router'
+import { createStore, compose, applyMiddleware } from 'redux';
 
-import reducers from './reducers';
+import createRootReducer from './reducers';
+
+export const history = createBrowserHistory();
+
+const requiredMiddlewares = [
+  thunk,
+  routerMiddleware(history),
+];
+
+const devMiddlewares = [
+  logger,
+];
 
 const getMiddlewares = () => {
   if (process.env.NODE_ENV === 'production') {
-    return applyMiddleware(thunk);
+    return applyMiddleware(...requiredMiddlewares);
   } else {
-    return applyMiddleware(thunk, logger);
+    return applyMiddleware(...requiredMiddlewares, ...devMiddlewares);
   }
 }
 
-const store = createStore(reducers, getMiddlewares());
-export default store;
+export default function configureStore(preloadedState) {
+  const store = createStore(
+    createRootReducer(history), // root reducer with router state
+    preloadedState,
+    compose(
+      getMiddlewares(),
+    ),
+  )
+
+  return store;
+}

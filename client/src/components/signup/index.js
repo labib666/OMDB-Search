@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, Redirect } from 'react-router-dom';
 
 import actions from '../../actions';
 
@@ -32,11 +32,11 @@ class Signup extends React.Component {
   }
 
   render() {
-    const { onSubmit, token } = this.props;
+    const { onSubmit, push, token } = this.props;
     const { username, email, password } = this.state;
 
     if (token && token.length > 0) {
-      this.props.history.push('/');
+      return <Redirect to="/"/>
     }
 
     return (

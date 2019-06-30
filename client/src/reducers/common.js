@@ -30,7 +30,6 @@ export const request = {
         }
       ),
     };
-    console.log('get', path, token, config);
     return axios.get(
       url, config,
     ).then(res => res.data);
@@ -47,7 +46,6 @@ export const request = {
         }
       ),
     };
-    console.log('post', path, token, body, config);
     return axios.post(
       url, body, config,
     ).then(res => res.data);

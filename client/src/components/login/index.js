@@ -62,7 +62,7 @@ class Login extends React.Component {
     const { username, password } = this.state;
 
     if (token && token.length > 0) {
-      this.props.history.push('/');
+      return <Redirect to="/"/>
     }
 
     return (
