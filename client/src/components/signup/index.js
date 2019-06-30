@@ -32,7 +32,7 @@ class Signup extends React.Component {
   }
 
   render() {
-    const { onSubmit, push, token } = this.props;
+    const { onSubmit, token } = this.props;
     const { username, email, password } = this.state;
 
     if (token && token.length > 0) {
