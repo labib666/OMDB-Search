@@ -4,6 +4,7 @@ import User from '@/models/User';
 
 export const getMovies = async (req, res, next) => {
   const { s } = req.query;
+  console.log(s);
   if (!s) {
     return res.status(200).json({
       message: 'Serched for movie',
